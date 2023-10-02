@@ -1,9 +1,8 @@
 import requests
 import sqlite3
-import argparse
 import os
+import argparse
 from scapy.all import *
-from scapy.all import sniff, Ether
 from scapy.layers.dns import DNSQR, DNSRR
 from scapy.layers.inet import IP
 from scapy.sendrecv import sniff
