@@ -344,7 +344,7 @@ def dns_sniffer(
         dns_storage.close()
 
 
-def dns_data_analysis():
+def dns_analyzer():
     if dns_requests:
         print('\nDNS Data Analysis:')
 
@@ -410,6 +410,8 @@ try:
             dns_storage
         )
     )
+
+    dns_analyzer()
 except PermissionError:
     print(f'{Fore.RED}Error: You dont have sufficient privileges{Style.RESET_ALL}')
 
@@ -424,5 +426,3 @@ except OSError as e:
         raise
 except KeyboardInterrupt:
     pass
-
-dns_data_analysis()
