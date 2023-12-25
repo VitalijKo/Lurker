@@ -7,7 +7,9 @@ from scapy.layers.dns import DNSQR, DNSRR
 from scapy.layers.inet import IP
 from scapy.sendrecv import sniff
 from datetime import datetime, timedelta
-from colorama import Fore, Style
+from colorama import Fore, Style, init
+
+init()
 
 dns_requests = {}
 dns_types = {}
@@ -135,7 +137,7 @@ def resolve_dns_doh(dns_request):
 
                 return [answer['data'] for answer in answers]
         except Exception as e:
-            print(f'{Fore.RED}[!] Error resolving DNS over HTTPS: {e}{Style.RESET_ALL}')
+            print(f'{Style.BRIGHT}{Fore.RED}[!] Error resolving DNS over HTTPS: {e}{Style.RESET_ALL}')
 
     return
 
@@ -172,68 +174,68 @@ def dns_sniffer(
         if filter_domains and not any(domain in dns_request for domain in filter_domains):
             return
 
-        print(f'{Fore.RED}\tDNS Request:{Style.RESET_ALL}')
-        print(f'Timestamp      : {Fore.YELLOW}{timestamp}{Style.RESET_ALL}')
-        print(f'Source IP      : {Fore.GREEN}{dns_src_ip}{Style.RESET_ALL}')
-        print(f'Destination IP : {Fore.GREEN}{dns_dest_ip}{Style.RESET_ALL}')
-        print(f'Source MAC     : {Style.RESET_ALL}{src_mac}')
-        print(f'Destination MAC: {Style.RESET_ALL}{dst_mac}')
-        print(f'Packet Size    : {Fore.GREEN}{len(pkt)} bytes{Style.RESET_ALL}')
-        print(f'TTL            : {Style.RESET_ALL}{ttl}')
-        print(f'Type           : {Fore.GREEN}{dns_type}{Style.RESET_ALL}')
-        print(f'IP Checksum    : {Fore.GREEN}{ip_checksum}{Style.RESET_ALL}')
-        print(f'UDP Checksum   : {Fore.GREEN}{udp_checksum}{Style.RESET_ALL}')
-        print(f'DNS Request    : {Fore.GREEN}{dns_request}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}{Fore.RED}\tDNS Request:{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}Timestamp      : {Fore.YELLOW}{timestamp}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}Source IP      : {Fore.GREEN}{dns_src_ip}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}Destination IP : {Fore.GREEN}{dns_dest_ip}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}Source MAC     : {Style.RESET_ALL}{src_mac}')
+        print(f'{Style.BRIGHT}Destination MAC: {Style.RESET_ALL}{dst_mac}')
+        print(f'{Style.BRIGHT}Packet Size    : {Fore.GREEN}{len(pkt)} bytes{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}TTL            : {Style.RESET_ALL}{ttl}')
+        print(f'{Style.BRIGHT}Type           : {Fore.GREEN}{dns_type}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}IP Checksum    : {Fore.GREEN}{ip_checksum}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}UDP Checksum   : {Fore.GREEN}{udp_checksum}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}DNS Request    : {Fore.GREEN}{dns_request}{Style.RESET_ALL}')
         print('*' * 64)
 
         if use_doh:
             resolved_ips = resolve_dns_doh(dns_request)
 
             if resolved_ips:
-                print(f'{Fore.RED}\tDNS Request (DoH){Style.RESET_ALL}')
-                print(f'Timestamp      : {Fore.YELLOW}{timestamp}{Style.RESET_ALL}')
-                print(f'Source IP      : {Fore.RED}{dns_src_ip}{Style.RESET_ALL}')
-                print(f'Destination IP : {Fore.RED}{dns_dest_ip}{Style.RESET_ALL}')
-                print(f'Source MAC     : {Style.RESET_ALL}{src_mac}')
-                print(f'Destination MAC: {Style.RESET_ALL}{dst_mac}')
-                print(f'Packet Size    : {Fore.GREEN}{len(pkt)} bytes{Style.RESET_ALL}')
-                print(f'TTL            : {Style.RESET_ALL} {ttl}')
-                print(f'Type           : {Fore.GREEN}{dns_type}{Style.RESET_ALL}')
-                print(f'IP Checksum    : {Fore.GREEN}{ip_checksum}{Style.RESET_ALL}')
-                print(f'UDP Checksum   : {Fore.GREEN}{udp_checksum}{Style.RESET_ALL}')
-                print(f'DNS Request    : {Fore.GREEN}{dns_request}{Style.RESET_ALL}')
-                print(f'Resolved IPs   : {Fore.GREEN}{", ".join(resolved_ips)}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}{Fore.RED}\tDNS Request (DoH){Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}Timestamp      : {Fore.YELLOW}{timestamp}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}Source IP      : {Fore.RED}{dns_src_ip}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}Destination IP : {Fore.RED}{dns_dest_ip}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}Source MAC     : {Style.RESET_ALL}{src_mac}')
+                print(f'{Style.BRIGHT}Destination MAC: {Style.RESET_ALL}{dst_mac}')
+                print(f'{Style.BRIGHT}Packet Size    : {Fore.GREEN}{len(pkt)} bytes{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}TTL            : {Style.RESET_ALL} {ttl}')
+                print(f'{Style.BRIGHT}Type           : {Fore.GREEN}{dns_type}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}IP Checksum    : {Fore.GREEN}{ip_checksum}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}UDP Checksum   : {Fore.GREEN}{udp_checksum}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}DNS Request    : {Fore.GREEN}{dns_request}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}Resolved IPs   : {Fore.GREEN}{", ".join(resolved_ips)}{Style.RESET_ALL}')
                 print('*' * 64)
 
             else:
-                print(f'{Fore.RED}\tDNS Request (DoH){Style.RESET_ALL}')
-                print(f'Timestamp      : {Fore.YELLOW}{timestamp}{Style.RESET_ALL}')
-                print(f'Source IP      : {Fore.RED}{dns_src_ip}{Style.RESET_ALL}')
-                print(f'Destination IP : {Fore.RED}{dns_dest_ip}{Style.RESET_ALL}')
-                print(f'Source MAC     : {Style.RESET_ALL}{src_mac}')
-                print(f'Destination MAC: {Style.RESET_ALL}{dst_mac}')
-                print(f'Packet Size    : {len(pkt)} bytes{Style.RESET_ALL}')
-                print(f'TTL            : {Style.RESET_ALL}{ttl}')
-                print(f'Type           : {dns_type}')
-                print(f'IP Checksum    : {Fore.GREEN}{ip_checksum}{Style.RESET_ALL}')
-                print(f'UDP Checksum   : {Fore.GREEN}{udp_checksum}{Style.RESET_ALL}')
-                print(f'DNS Request    : {dns_request}')
-                print(f'Resolved IPs   : (Cannot resolve with DoH)')
+                print(f'{Style.BRIGHT}{Fore.RED}\tDNS Request (DoH){Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}Timestamp      : {Fore.YELLOW}{timestamp}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}Source IP      : {Fore.RED}{dns_src_ip}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}Destination IP : {Fore.RED}{dns_dest_ip}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}Source MAC     : {Style.RESET_ALL}{src_mac}')
+                print(f'{Style.BRIGHT}Destination MAC: {Style.RESET_ALL}{dst_mac}')
+                print(f'{Style.BRIGHT}Packet Size    : {len(pkt)} bytes{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}TTL            : {Style.RESET_ALL}{ttl}')
+                print(f'{Style.BRIGHT}Type           : {dns_type}')
+                print(f'{Style.BRIGHT}IP Checksum    : {Fore.GREEN}{ip_checksum}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}UDP Checksum   : {Fore.GREEN}{udp_checksum}{Style.RESET_ALL}')
+                print(f'{Style.BRIGHT}DNS Request    : {dns_request}')
+                print(f'{Style.BRIGHT}Resolved IPs   : (Cannot resolve with DoH)')
                 print('*' * 64)
 
         else:
-            print(f'{Fore.RED}\tDNS Request{Style.RESET_ALL}')
-            print(f'Timestamp      : {Fore.YELLOW}{timestamp}{Style.RESET_ALL}')
-            print(f'Source IP      : {Fore.RED}{dns_src_ip}{Style.RESET_ALL}')
-            print(f'Destination IP : {Fore.RED}{dns_dest_ip}{Style.RESET_ALL}')
-            print(f'Source MAC     : {Style.RESET_ALL}{src_mac}')
-            print(f'Destination MAC: {Style.RESET_ALL}{dst_mac}')
-            print(f'Packet Size    : {Fore.GREEN}{len(pkt)} bytes{Style.RESET_ALL}')
-            print(f'TTL            : {Style.RESET_ALL}{ttl}')
-            print(f'Type           : {dns_type}')
-            print(f'IP Checksum    : {Fore.GREEN}{ip_checksum}{Style.RESET_ALL}')
-            print(f'UDP Checksum   : {Fore.GREEN}{udp_checksum}{Style.RESET_ALL}')
-            print(f'DNS Request    : {dns_request}')
+            print(f'{Style.BRIGHT}{Fore.RED}\tDNS Request{Style.RESET_ALL}')
+            print(f'{Style.BRIGHT}Timestamp      : {Fore.YELLOW}{timestamp}{Style.RESET_ALL}')
+            print(f'{Style.BRIGHT}Source IP      : {Fore.RED}{dns_src_ip}{Style.RESET_ALL}')
+            print(f'{Style.BRIGHT}Destination IP : {Fore.RED}{dns_dest_ip}{Style.RESET_ALL}')
+            print(f'{Style.BRIGHT}Source MAC     : {Style.RESET_ALL}{src_mac}')
+            print(f'{Style.BRIGHT}Destination MAC: {Style.RESET_ALL}{dst_mac}')
+            print(f'{Style.BRIGHT}Packet Size    : {Fore.GREEN}{len(pkt)} bytes{Style.RESET_ALL}')
+            print(f'{Style.BRIGHT}TTL            : {Style.RESET_ALL}{ttl}')
+            print(f'{Style.BRIGHT}Type           : {dns_type}')
+            print(f'{Style.BRIGHT}IP Checksum    : {Fore.GREEN}{ip_checksum}{Style.RESET_ALL}')
+            print(f'{Style.BRIGHT}UDP Checksum   : {Fore.GREEN}{udp_checksum}{Style.RESET_ALL}')
+            print(f'{Style.BRIGHT}DNS Request    : {dns_request}')
             print('*' * 64)
 
         if dns_request in dns_requests:
@@ -288,18 +290,18 @@ def dns_sniffer(
         if filter_domains and not any(domain in dns_response for domain in filter_domains):
             return
 
-        print(f'{Fore.RED}\tDNS Response details{Style.RESET_ALL}')
-        print(f'Timestamp      : {Fore.YELLOW}{timestamp}{Style.RESET_ALL}')
-        print(f'Source IP      : {Fore.RED}{dns_src_ip}{Style.RESET_ALL}')
-        print(f'Destination IP : {Fore.RED}{dns_dest_ip}{Style.RESET_ALL}')
-        print(f'Source MAC     : {Style.RESET_ALL}{src_mac}')
-        print(f'Destination MAC: {Style.RESET_ALL}{dst_mac}')
-        print(f'Packet Size    : {Fore.GREEN}{len(pkt)} bytes{Style.RESET_ALL}')
-        print(f'TTL            : {Style.RESET_ALL}{ttl}')
-        print(f'Type           : {dns_type}')
-        print(f'IP Checksum    : {Fore.GREEN}{ip_checksum}{Style.RESET_ALL}')
-        print(f'UDP Checksum   : {Fore.GREEN}{udp_checksum}{Style.RESET_ALL}')
-        print(f'DNS Response   : {dns_response}')
+        print(f'{Style.BRIGHT}{Fore.RED}\tDNS Response details{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}Timestamp      : {Fore.YELLOW}{timestamp}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}Source IP      : {Fore.RED}{dns_src_ip}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}Destination IP : {Fore.RED}{dns_dest_ip}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}Source MAC     : {Style.RESET_ALL}{src_mac}')
+        print(f'{Style.BRIGHT}Destination MAC: {Style.RESET_ALL}{dst_mac}')
+        print(f'{Style.BRIGHT}Packet Size    : {Fore.GREEN}{len(pkt)} bytes{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}TTL            : {Style.RESET_ALL}{ttl}')
+        print(f'{Style.BRIGHT}Type           : {dns_type}')
+        print(f'{Style.BRIGHT}IP Checksum    : {Fore.GREEN}{ip_checksum}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}UDP Checksum   : {Fore.GREEN}{udp_checksum}{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}DNS Response   : {dns_response}')
         print('*' * 64)
 
         if dns_response in dns_requests:
@@ -364,19 +366,19 @@ def dns_analyzer():
                 else:
                     resolved_by_counts[ip] = 1
 
-        print(f'Total DNS Requests: {total_requests}')
-        print(f'Unique Domains: {unique_domains}')
-        print(f'Most Requested Domain: {most_requested} (Count: {most_requested_count})')
+        print(f'{Style.BRIGHT}Total DNS Requests: {total_requests}')
+        print(f'{Style.BRIGHT}Unique Domains: {unique_domains}')
+        print(f'{Style.BRIGHT}Most Requested Domain: {most_requested} (Count: {most_requested_count})')
         print('\nMost Resolved by:')
 
         for ip, count in resolved_by_counts.items():
-            print(f'{ip}: {count}')
+            print(f'{Style.BRIGHT}{ip}: {count}')
 
         if dns_types:
             print('\nDNS Type Analysis:')
 
             for dns_type, count in dns_types.items():
-                print(f'Type: {dns_type} - Count: {count}')
+                print(f'{Style.BRIGHT}Type: {dns_type} - Count: {count}')
 
     else:
         print('No DNS requests to analyze.')
@@ -394,7 +396,7 @@ args = parser.parse_args()
 filter_rule = 'udp port 53'
 
 try:
-    print(f'{Fore.MAGENTA}\t\tDNS Packet Sniffer started...{Style.RESET_ALL}')
+    print(f'{Style.BRIGHT}{Fore.MAGENTA}\t\tDNS Packet Sniffer started...{Style.RESET_ALL}')
 
     dns_storage = DNSDataStorage() if args.database else None
 
@@ -413,12 +415,12 @@ try:
 
     dns_analyzer()
 except PermissionError:
-    print(f'{Fore.RED}Error: You dont have sufficient privileges{Style.RESET_ALL}')
+    print(f'{Style.BRIGHT}{Fore.RED}Error: You dont have sufficient privileges{Style.RESET_ALL}')
 
     os.abort()
 except OSError as e:
     if 'No such device' in str(e):
-        print(f'{Fore.RED}Error: Interface {args.interface} doesnt exist. \nPlease provide a valid interface name.{Style.RESET_ALL}')
+        print(f'{Style.BRIGHT}{Fore.RED}Error: Interface {args.interface} doesnt exist. \nPlease provide a valid interface name.{Style.RESET_ALL}')
 
         os.abort()
 
