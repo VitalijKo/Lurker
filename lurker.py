@@ -384,7 +384,7 @@ def dns_analyzer():
         print('No DNS requests to analyze.')
 
 
-parser = argparse.ArgumentParser(description='VitInspect')
+parser = argparse.ArgumentParser(description='Lurker')
 parser.add_argument('-i', '--interface', help='Specify the network interface, for example "eth0"', required=True)
 parser.add_argument('-o', '--output', help='Specify the filename to save the results to a file')
 parser.add_argument('-t', '--target-ip', help='Specify specific target IP address to monitor')
